@@ -1,0 +1,17 @@
+name: spike
+on: pull_request
+jobs:
+  fast:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ok
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: test ! -f spike/FAIL
+  slow:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sleep "$(cat spike/SLOW 2>/dev/null || echo 5)"
